@@ -55,22 +55,22 @@ public class TodoRestApplicationTests {
     @Test
     public void readAll() throws Exception {
         mockMvc.perform(get("/todos")).
-                andExpect(jsonPath("$[0].id", is(savedTodos.get(0).getId().intValue()))).
-                andExpect(jsonPath("$[0].text", is(savedTodos.get(0).getText()))).
-                andExpect(jsonPath("$[0].complete", is(savedTodos.get(0).getComplete()))).
+                andExpect(jsonPath("$.content.[0].todo.id", is(savedTodos.get(0).getId().intValue()))).
+                andExpect(jsonPath("$.content.[0].todo.text", is(savedTodos.get(0).getText()))).
+                andExpect(jsonPath("$.content.[0].todo.complete", is(savedTodos.get(0).getComplete()))).
 
-                andExpect(jsonPath("$[1].id", is(savedTodos.get(1).getId().intValue()))).
-                andExpect(jsonPath("$[1].text", is(savedTodos.get(1).getText()))).
-                andExpect(jsonPath("$[1].complete", is(savedTodos.get(1).getComplete())));
+                andExpect(jsonPath("$.content.[1].todo.id", is(savedTodos.get(1).getId().intValue()))).
+                andExpect(jsonPath("$.content.[1].todo.text", is(savedTodos.get(1).getText()))).
+                andExpect(jsonPath("$.content.[1].todo.complete", is(savedTodos.get(1).getComplete())));
     }
 
     @Test
     public void readTodoSuccess() throws Exception {
         mockMvc.perform(get("/todos/{id}", 1)).
                 andExpect(status().is2xxSuccessful()).
-                andExpect(jsonPath("$.id", is(1))).
-                andExpect(jsonPath("$.text", is("first"))).
-                andExpect(jsonPath("$.complete", is(false)));
+                andExpect(jsonPath("$.todo.id", is(1))).
+                andExpect(jsonPath("$.todo.text", is("first"))).
+                andExpect(jsonPath("$.todo.complete", is(false)));
     }
 
     @Test
@@ -102,9 +102,9 @@ public class TodoRestApplicationTests {
         mockMvc.perform(put("/todos/{id}", 1).contentType(MediaType.APPLICATION_JSON).content(updatedTodo)).andExpect(status().isOk());
 
         mockMvc.perform(get("/todos/{id}", 1)).
-                andExpect(jsonPath("$.id", is(1))).
-                andExpect(jsonPath("$.text", is("first updated"))).
-                andExpect(jsonPath("$.complete", is(true)));
+                andExpect(jsonPath("$.todo.id", is(1))).
+                andExpect(jsonPath("$.todo.text", is("first updated"))).
+                andExpect(jsonPath("$.todo.complete", is(true)));
     }
 
 }

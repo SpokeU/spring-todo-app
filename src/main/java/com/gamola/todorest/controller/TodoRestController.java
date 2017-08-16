@@ -21,9 +21,6 @@ public class TodoRestController {
     @Autowired
     private TodoRepository todoRepository;
 
-    @Autowired
-    private Filter springSecurityFilterChain;
-
     @RequestMapping(method = RequestMethod.GET)
     public Resources<TodoResource> all() {
         List<TodoResource> allTodos = todoRepository.findAll().stream().map(TodoResource::new).collect(Collectors.toList());
